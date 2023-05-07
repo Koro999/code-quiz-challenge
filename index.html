@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="assets/style.css">
+    </head>
+    <body>
+        <!--top bar letting u navigate to view highscores and watch the timer -->
+        <section id = topBar>
+                <p id = viewHighscore><a href="">View high-scores</a> </p>
+                <p>Time: <span id="timer">0</span> </p>
+        </section>
+
+        <!---->
+        <section id = quizBox>
+            <!--Box 1 that you see on startup-->
+            <h1 id = title data-state="visible">Coding Quiz Challenge</h1>
+            <p id = quizDescribe data-state="visible"> 
+                Try to answer the following code-related questions within the time limit. 
+                Keep in mind that incorrect answers will penalize your score and time by 
+                10 seconds!
+            </p>
+            <button type="button">Start Quiz!</button>
+
+            <!--Box 2 that you see as you do the quiz-->
+            <h2 id = question data-state="hidden"></h2>
+            <ol id = answers data-state="hidden"></ol>
+                
+            <!--Box 3 that you see when quiz done -->
+            <h3 id = done data-state="hidden"></h3>
+            <p id = finalScore data-state="hidden"></p>
+            <input type="hidden" name="initials" id="initials" placeholder="Enter your initials">
+        </section>
+        
+        <script src="assets/script.js" async defer></script>
+    </body>
+</html>
