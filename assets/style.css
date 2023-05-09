@@ -1,0 +1,56 @@
+body {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/*formatting the top bar with vew high-scores and time */
+#topBar {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    color: black;
+    border: 0;
+    padding: 0;
+    height: 50px;
+    align-items: center;
+}
+
+#topBar #timerText {
+    margin-left: auto;
+    padding: 10px;
+    border: 0px;
+    justify-content: right;
+    
+}
+
+#topBar #viewHighscore {
+    margin-right: auto;
+    padding: 10px;
+    justify-content: left;
+}
+
+/*formatting the main Box, this box stays on the page at all times */
+#quizBox {
+    border: 3px solid black;
+    height: 500px;
+    width: 500px;
+    text-align: center;
+    justify-content: center;
+}
+
+/*setting the initial status of all the cards on page load, that go inside the main Box */
+#quizBox #introductionPage {
+    flex: 1 0 100%;
+    margin: 0;
+    padding: 10px; 
+}
+
+#quizBox #highscorePage, #quizPage  {
+    flex: 1 0 100%;
+    margin: 0;
+    padding: 10px;
+    display: none;
+}

@@ -11,29 +11,36 @@
     <body>
         <!--top bar letting u navigate to view highscores and watch the timer -->
         <section id = topBar>
-                <p id = viewHighscore><a href="">View high-scores</a> </p>
-                <p>Time: <span id="timer">0</span> </p>
+                <p id = viewHighscore>View high-scores</p>
+                <p id = timerText>Time: <span id= timer>0</span> </p>
         </section>
 
         <!---->
         <section id = quizBox>
             <!--Box 1 that you see on startup-->
-            <h1 id = title data-state="visible">Coding Quiz Challenge</h1>
-            <p id = quizDescribe data-state="visible"> 
+            <span id = introductionPage>
+                <h1 id = title>Coding Quiz Challenge</h1>
+                <p id = quizDescribe> 
                 Try to answer the following code-related questions within the time limit. 
                 Keep in mind that incorrect answers will penalize your score and time by 
                 10 seconds!
-            </p>
-            <button type="button">Start Quiz!</button>
+                </p>
+                <button type="button" id = "startQuiz" >Start Quiz!</button>
+            </span>
 
             <!--Box 2 that you see as you do the quiz-->
-            <h2 id = question data-state="hidden"></h2>
-            <ol id = answers data-state="hidden"></ol>
-                
+            <span id = quizPage>
+                <h1 id = question></h1>
+                <ol id = answers></ol>
+            </span>        
+
             <!--Box 3 that you see when quiz done -->
-            <h3 id = done data-state="hidden"></h3>
-            <p id = finalScore data-state="hidden"></p>
-            <input type="hidden" name="initials" id="initials" placeholder="Enter your initials">
+            <span id = highscorePage>
+                <h1 id = done></h1>
+                <p id = finalScore></p>
+                <input type="hidden" name="initials" id="initials" placeholder="Enter your initials">
+                <button display="none" id = "submitScore" >Submit</button>
+            </span>
         </section>
         
         <script src="assets/script.js" async defer></script>
