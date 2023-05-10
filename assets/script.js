@@ -128,9 +128,11 @@ function quizGenerate() {
         //create buttons inside the list elements 
         var button = document.createElement("button")   
         button.setAttribute("value", buttonNumber)
+        button.setAttribute("class", "answerButton")
         button.innerHTML = `${answer}: ${quizQuestions[questionNumber].answers[answer]}`;     
         liElem.appendChild(button);
     }
+    buttonNumber = 0;
 
     //event listener to check if answer clicked is correct 
     answerSelect.addEventListener("click", function(event) {
@@ -142,17 +144,22 @@ function quizGenerate() {
         if (element.matches("button") === true) {
             if (abcd[userAnswer] === quizQuestions[questionNumber].correctAnswer){
                 score++;
-                var correct = setInterval(function () {
-                    rightWrong.textContent = "C O R R E C T"
-                    clearInterval(correct);
-                }, 3000);
+
+                rightWrong.textContent = "C O R R E C T" 
+                var correctClear = setInterval(function () {
+                    rightWrong.textContent = ""
+                    clearInterval(correctClear);
+                }, 2000);
+                
                 nextQuestion();
             }
             else{
                 timer = timer - 10;
+
+                rightWrong.textContent = "I N C O R R E C T"
                 var wrong = setInterval(function () {
-                    rightWrong.textContent = "I N C O R R E C T"
-                    clearInterval(wrong);
+                    rightWrong.textContent = ""
+                    clearInterval(wrongClear);
                 }, 3000);
                 nextQuestion();
             }
@@ -164,11 +171,16 @@ function quizGenerate() {
 function nextQuestion () {
     var nextQuestion = setInterval(function(){
         questionNumber++;
-        for(answer in quizQuestions[questionNumber].answers) {
-            answerList = document.getElementById("answers");
-            answerList.removeChild();
-        }
+        var removeButton = document.getElementById("answers");
+        removeButton.remove();
+
+        var olElem = document.createElement("ol");
+        olElem.setAttribute("id", "answers");
+        quizPage.appendChild(olElem);
+        answerSelect = document.querySelector("#answers"); 
+
+        quizGenerate ();
         clearInterval(nextQuestion);
     },3000)
-    quizGenerate ();
+    
 }

@@ -18,7 +18,7 @@
         <!---->
         <section id = quizBox>
             <!--Box 1 that you see on startup-->
-            <span id = introductionPage>
+            <div id = introductionPage>
                 <h1 id = title>Coding Quiz Challenge</h1>
                 <p id = quizDescribe> 
                 Try to answer the following code-related questions within the time limit. 
@@ -26,22 +26,23 @@
                 10 seconds!
                 </p>
                 <button type="button" id = "startQuiz" >Start Quiz!</button>
-            </span>
+            </div>
 
             <!--Box 2 that you see as you do the quiz-->
-            <span id = quizPage style ="display: none;">
+            <div id = quizPage style ="display: none;">
                 <h1 id = question></h1>
                 <ol id = answers></ol>
-                <h2 id = rightWrong></h2>
-            </span>        
-
+                
+            </div>        
+            <h2 id = rightWrong></h2>
+            
             <!--Box 3 that you see when quiz done -->
-            <span id = highscorePage style ="display: none;">
+            <div id = highscorePage style ="display: none;">
                 <h1 id = done></h1>
                 <p id = finalScore></p>
                 <input type="hidden" name="initials" id="initials" placeholder="Enter your initials">
                 <button display="none" id = "submitScore" >Submit</button>
-            </span>
+            </div>
         </section>
         
         <script src="assets/script.js" async defer></script>
