@@ -1,23 +1,32 @@
 //Query Selector for main card containers that need to be navigated through
-var introductionPage = document.querySelector("#introductionPage") //fixed page
-var quizPage = document.querySelector("#quizPage") //needs to be cleared 
-var highscorePage = document.querySelector("#highscorePage") //somethings need to be cleared 
+var introductionPage = document.querySelector("#introductionPage"); //fixed page
+var quizPage = document.querySelector("#quizPage");//needs to be cleared 
+var highscorePageSubmit = document.querySelector("#highscorePageSubmit"); //somethings need to be cleared 
+var highscorePage = document.querySelector("#highscore"); //highscore page 
 
 //timer variables 
-var timer = 6969; 
-var timeStart = document.querySelector('#timer')
+var timer = 1; 
+var timeStart = document.querySelector('#timer');
+var timerStop = false;
 
 //Query Selector values for buttons
-var startQuiz = document.querySelector("#startQuiz")
+var startQuiz = document.querySelector("#startQuiz");
 
 //Score count, 1 per correct answer 
+var finalScore = document.querySelector("#finalScore");
 var score = 0;
 var questionNumber = 0;
 
 //Query Selector for quiz questions, answers, and correct or incorrect 
-var questionSelect = document.querySelector("#question") 
-var answerSelect = document.querySelector("#answers") 
-var rightWrong = document.querySelector("#rightWrong") 
+var questionSelect = document.querySelector("#question") ;
+var answerSelect = document.querySelector("#answers") ;
+var rightWrong = document.querySelector("#rightWrong") ;
+
+//Query Selector for score submit, go back and clear score, and initial inputbox
+var submitScores = document.querySelector("#submitScore");
+var goBack = document.querySelector("#goBack");
+var clearScores = document.querySelector("#clearScores");
+var initialInput = document.querySelector("#initials");
 
 //quiz questions and answer storage in an Array
 const quizQuestions = [
@@ -89,31 +98,36 @@ startQuiz.addEventListener("click", function(){
     
     //setting quizPage to show
     quizPage.setAttribute("style", "display:visible");
-    questionSelect.setAttribute("style", "display:visible");
-    answerSelect.setAttribute("style", "display:visible");
-    rightWrong.setAttribute("style", "display:visible");
 
+    //start generating Quiz questions
     quizGenerate();
 
-    //sets timer to one minute to do the quiz 
+    //starts the timer to do the quiz 
     timeStart.textContent = timer;
     var timerCountdown = setInterval (function() {
         timer--;
         timeStart.textContent = timer; 
 
-        if (timer == 0) {
+        if (timer <= 0) {
             clearInterval(timerCountdown);
+            submitScore ();
             quizPage.setAttribute("style", "display:none");
-            highscorePage.setAttribute("style", "display:visible"); //lose, still register score 
-        }        
+            highscorePageSubmit.setAttribute("style", "display:visible"); //lose, still register score 
+        } else if (timerStop === true){
+            clearInterval(timerCountdown)
+        }    
     },1000)
 })
 
 //show the quiz content on the page and check answers 
 function quizGenerate() {
-    questionSelect.textContent= quizQuestions[questionNumber].question;
-    var buttonNumber = 0;
 
+    if (questionNumber > quizQuestions.length){ //
+        return;
+    }
+    questionSelect.textContent= quizQuestions[questionNumber].question;
+    
+    var buttonNumber = 0;
     for(answer in quizQuestions[questionNumber].answers) {
         //generate buttonNumber for comparison later
         buttonNumber++;
@@ -157,7 +171,7 @@ function quizGenerate() {
                 timer = timer - 10;
 
                 rightWrong.textContent = "I N C O R R E C T"
-                var wrong = setInterval(function () {
+                var wrongClear = setInterval(function () {
                     rightWrong.textContent = ""
                     clearInterval(wrongClear);
                 }, 3000);
@@ -170,17 +184,62 @@ function quizGenerate() {
 
 function nextQuestion () {
     var nextQuestion = setInterval(function(){
-        questionNumber++;
+        //count up for the questions 
+        questionNumber++; 
+
+        //clear old buttons
         var removeButton = document.getElementById("answers");
         removeButton.remove();
 
+        //recreate empty ol element
         var olElem = document.createElement("ol");
         olElem.setAttribute("id", "answers");
         quizPage.appendChild(olElem);
         answerSelect = document.querySelector("#answers"); 
 
-        quizGenerate ();
+        //if the question Number === the number of questions switch to the highscorePage
+        if (questionNumber === quizQuestions.length){ //
+            submitScore();
+            clearInterval(nextQuestion);
+            return;
+        }
+        //otherwise generate next question 
+        else {
+            quizGenerate ();
+        }
         clearInterval(nextQuestion);
     },3000)
     
+}
+
+function submitScore() {
+    //make sure correct and incorrect text is cleared 
+    rightWrong.textContent = "";
+    //swap pages 
+    highscorePageSubmit.setAttribute("style", "display:visible");
+    quizPage.setAttribute("style", "display: none");
+    //stop timer and reset to 0
+    timerStop = true;
+    timer = 0;
+    //store the score value 
+    finalScore.textContent = score; 
+
+    submitScores.addEventListener("click", function(event) {
+        event.preventDefault();//prevent webpage from refreshing
+
+        var recordedScore =
+        {initials: initialInput.value,
+        score: score }
+
+        recordedScore.score = score; 
+
+        if (initialInput === "") {
+            displayMessage("error", "Please enter Initials.");
+          }
+
+        localStorage.setItem("score", JSON.stringify(recordedScore)); //save score to local storage 
+        
+        highscorePageSubmit.setAttribute("style", "display:none");
+        highscorePage.setAttribute("style", "display:visible");
+    });
 }

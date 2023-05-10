@@ -35,13 +35,20 @@
                 
             </div>        
             <h2 id = rightWrong></h2>
-            
-            <!--Box 3 that you see when quiz done -->
-            <div id = highscorePage style ="display: none;">
-                <h1 id = done></h1>
-                <p id = finalScore></p>
-                <input type="hidden" name="initials" id="initials" placeholder="Enter your initials">
-                <button display="none" id = "submitScore" >Submit</button>
+
+            <!--Box 3 that you see when quiz done Score Submit -->
+            <div id = highscorePageSubmit style ="display: none;">
+                <h1>Quiz Complete!</h1>
+                <p>Your final score is <span id = finalScore>0</span>.</p>
+                <input type="text" name="initials" id="initials" placeholder="Enter your initials">
+                <button id = "submitScore" >Submit</button>
+            </div>
+
+            <div id="highscore" style ="display: none;">
+                <h1>Highscores</h1>
+                <ol id = scoreList></ol>
+                <button id = "goBack">Go Back</button>
+                <button id = "clearScores">Clear Highscores</button>
             </div>
         </section>
         
