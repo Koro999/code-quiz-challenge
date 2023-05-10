@@ -37,6 +37,7 @@ body {
     border: 3px solid black;
     height: 500px;
     width: 500px;
+    padding: 10px;
     text-align: center;
     justify-content: center;
 }
@@ -48,9 +49,15 @@ body {
     padding: 10px; 
 }
 
-#quizBox #highscorePage, #quizPage  {
+#quizBox #quizPage {
+    text-align: left;
+}
+
+
+#highscorePage, #quizPage  {
     flex: 1 0 100%;
     margin: 0;
     padding: 10px;
-    display: none;
 }
+
+
