@@ -43,21 +43,50 @@ body {
 }
 
 /*setting the initial status of all the cards on page load, that go inside the main Box */
-#quizBox #introductionPage {
+#introductionPage{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
     flex: 1 0 100%;
+    justify-content: center;
+    align-content: center;
     margin: 0;
-    padding: 10px; 
+ 
+    padding-left:0;
 }
 
-#quizBox #quizPage {
+#quizPage {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: 1 0 100%;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+#quizPage h1 {
+    text-align: center;
+}
+
+#quizBox #quizPage, #highscore{
     text-align: left;
 }
 
-
-#highscorePage, #quizPage  {
+#highscorePageSubmit, #highscore {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     flex: 1 0 100%;
+    flex-wrap: wrap;
     margin: 0;
-    padding: 10px;
+    padding: 0;
+    align-items: center; 
 }
+
+#highscorePageSubmit input, button {
+    width: 50%;
+}
+
 
 

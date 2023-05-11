@@ -5,7 +5,7 @@ var highscorePageSubmit = document.querySelector("#highscorePageSubmit"); //some
 var highscorePage = document.querySelector("#highscore"); //highscore page 
 
 //timer variables 
-var timer = 1; 
+var timer = 1000; 
 var timeStart = document.querySelector('#timer');
 var timerStop = false;
 
@@ -22,8 +22,9 @@ var questionSelect = document.querySelector("#question") ;
 var answerSelect = document.querySelector("#answers") ;
 var rightWrong = document.querySelector("#rightWrong") ;
 
-//Query Selector for score submit, go back and clear score, and initial inputbox
+//Query Selector for score submit, go back and clear score, and initial inputbox, and score list
 var submitScores = document.querySelector("#submitScore");
+var scoreList = document.querySelector("#scoreList");
 var goBack = document.querySelector("#goBack");
 var clearScores = document.querySelector("#clearScores");
 var initialInput = document.querySelector("#initials");
@@ -136,13 +137,14 @@ function quizGenerate() {
         //create list elements
         var liElem = document.createElement("li");
         answerSelect.appendChild(liElem);
-        answerSelect.setAttribute("style", "list-style: none;")
-        answerSelect.setAttribute("class", "answerList")
-        console.log(answerSelect);
+        answerSelect.setAttribute("style", "list-style: none;");
+        answerSelect.setAttribute("class", "answerList");
+        //console.log(answerSelect);
         //create buttons inside the list elements 
-        var button = document.createElement("button")   
-        button.setAttribute("value", buttonNumber)
-        button.setAttribute("class", "answerButton")
+        var button = document.createElement("button");
+        button.setAttribute("value", buttonNumber);
+        button.setAttribute("class", "answerButton");
+        button.setAttribute("style", "width: 80%; list-style:none; padding-left:0; text-align: left; position:relative; left:5%");
         button.innerHTML = `${answer}: ${quizQuestions[questionNumber].answers[answer]}`;     
         liElem.appendChild(button);
     }
@@ -233,13 +235,23 @@ function submitScore() {
 
         recordedScore.score = score; 
 
-        if (initialInput === "") {
-            displayMessage("error", "Please enter Initials.");
+        if (initialInput.value === "") {
+            alert("Please enter initials.")
           }
-
+        else {
         localStorage.setItem("score", JSON.stringify(recordedScore)); //save score to local storage 
         
         highscorePageSubmit.setAttribute("style", "display:none");
         highscorePage.setAttribute("style", "display:visible");
+
+        var showScores = document.createElement("li");
+        scoreList.appendChild(showScores);
+        scoreList.setAttribute("class", "scoreListStored");
+        
+        var newScore = JSON.parse(localStorage.getItem("score"));
+        console.log(newScore);
+        scoreList.textContent = `${newScore.initials} - ${newScore.score}`;
+        scoreList.setAttribute("style", "list-style:none; padding-left:0;")
+        }
     });
 }
