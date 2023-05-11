@@ -5,7 +5,7 @@ var highscorePageSubmit = document.querySelector("#highscorePageSubmit"); //some
 var highscorePage = document.querySelector("#highscore"); //highscore page 
 
 //timer variables 
-var timer = 1000; 
+var timer = 10; 
 var timeStart = document.querySelector('#timer');
 var timerStop = false;
 
@@ -28,6 +28,9 @@ var scoreList = document.querySelector("#scoreList");
 var goBack = document.querySelector("#goBack");
 var clearScores = document.querySelector("#clearScores");
 var initialInput = document.querySelector("#initials");
+
+var newScore ;
+var showScores; 
 
 //quiz questions and answer storage in an Array
 const quizQuestions = [
@@ -95,6 +98,10 @@ const quizQuestions = [
 
 //startQuiz button. swap to quiz page, start timer
 startQuiz.addEventListener("click", function(){
+    //reset to defaults
+    score= 0;
+    timer = 120;
+
     introductionPage.setAttribute("style", "display:none");
     
     //setting quizPage to show
@@ -122,10 +129,12 @@ startQuiz.addEventListener("click", function(){
 
 //show the quiz content on the page and check answers 
 function quizGenerate() {
-
     if (questionNumber > quizQuestions.length){ //
+        clearButtons ();
         return;
     }
+
+    
     questionSelect.textContent= quizQuestions[questionNumber].question;
     
     var buttonNumber = 0;
@@ -150,6 +159,7 @@ function quizGenerate() {
     }
     buttonNumber = 0;
 
+    
     //event listener to check if answer clicked is correct 
     answerSelect.addEventListener("click", function(event) {
         var element = event.target; 
@@ -189,15 +199,7 @@ function nextQuestion () {
         //count up for the questions 
         questionNumber++; 
 
-        //clear old buttons
-        var removeButton = document.getElementById("answers");
-        removeButton.remove();
-
-        //recreate empty ol element
-        var olElem = document.createElement("ol");
-        olElem.setAttribute("id", "answers");
-        quizPage.appendChild(olElem);
-        answerSelect = document.querySelector("#answers"); 
+        clearButtons();
 
         //if the question Number === the number of questions switch to the highscorePage
         if (questionNumber === quizQuestions.length){ //
@@ -225,33 +227,65 @@ function submitScore() {
     timer = 0;
     //store the score value 
     finalScore.textContent = score; 
-
-    submitScores.addEventListener("click", function(event) {
-        event.preventDefault();//prevent webpage from refreshing
-
-        var recordedScore =
-        {initials: initialInput.value,
-        score: score }
-
-        recordedScore.score = score; 
-
-        if (initialInput.value === "") {
-            alert("Please enter initials.")
-          }
-        else {
-        localStorage.setItem("score", JSON.stringify(recordedScore)); //save score to local storage 
-        
-        highscorePageSubmit.setAttribute("style", "display:none");
-        highscorePage.setAttribute("style", "display:visible");
-
-        var showScores = document.createElement("li");
-        scoreList.appendChild(showScores);
-        scoreList.setAttribute("class", "scoreListStored");
-        
-        var newScore = JSON.parse(localStorage.getItem("score"));
-        console.log(newScore);
-        scoreList.textContent = `${newScore.initials} - ${newScore.score}`;
-        scoreList.setAttribute("style", "list-style:none; padding-left:0;")
-        }
-    });
 }
+
+function clearButtons () {
+    //clear old buttons
+    var removeButton = document.getElementById("answers");
+    removeButton.remove();
+
+    //recreate empty ol element
+    var olElem = document.createElement("ol");
+    olElem.setAttribute("id", "answers");
+    quizPage.appendChild(olElem);
+    answerSelect = document.querySelector("#answers"); 
+}
+
+submitScores.addEventListener("click", function(event) {
+    event.preventDefault();//prevent webpage from refreshing
+
+    var recordedScore =
+    {initials: initialInput.value,
+    score: score }
+
+    recordedScore.score = score; 
+
+    if (initialInput.value === "") {
+        alert("Please enter initials.")
+      }
+    else {
+    //save score and initials to local storage
+    localStorage.setItem("score", JSON.stringify(recordedScore));  
+    //change pages once score is submitted
+    highscorePageSubmit.setAttribute("style", "display:none");
+    highscorePage.setAttribute("style", "display:visible");
+    
+    //create the li to show the scores set attributes for the score  
+    showScores = document.createElement("li"); //create li
+    scoreList.setAttribute("class", "scoreListStored"); //set attributes
+
+    newScore = JSON.parse(localStorage.getItem("score")); //parse stored object
+    storedText = `${newScore.initials} - ${newScore.score}`;
+    scoreList.textContent = storedText; //set text content
+    scoreList.setAttribute("style", "list-style:none; padding-left:0;") //set attributes
+    scoreList.appendChild(showScores); //append into existence
+    }
+});
+
+clearScores.addEventListener("click", function(event) {
+    
+    var removeHighscore = document.getElementById("scoreList");
+    removeHighscore.remove();
+
+    //recreate empty ol element
+    var scoreOl = document.createElement("ol");
+    scoreOl.setAttribute("id", "score");
+    quizPage.appendChild(scoreOl);
+    scoreList = document.querySelector("#scoreList");
+
+})
+
+goBack.addEventListener("click", function(event) {
+    introductionPage.setAttribute("style", "display:visible")
+    highscorePage.setAttribute("style", "display:none");
+})
