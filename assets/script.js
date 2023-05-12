@@ -4,8 +4,16 @@ var quizPage = document.querySelector("#quizPage");//needs to be cleared
 var highscorePageSubmit = document.querySelector("#highscorePageSubmit"); //somethings need to be cleared 
 var highscorePage = document.querySelector("#highscore"); //highscore page 
 
-//Query Selector for View High-Scores 
+//Query Selector for highscore page and score submit pages 
+var submitScores = document.querySelector("#submitScore");
 var viewHighscore = document.querySelector("#viewHighscore");
+var scoreList = document.querySelector("#scoreList");
+var goBack = document.querySelector("#goBack");
+var clearScores = document.querySelector("#clearScores");
+var initialInput = document.querySelector("#initials");
+
+//Query Selector for buttons in document 
+var buttons = document.querySelectorAll('button');
 
 //timer variables 
 var timer; 
@@ -25,12 +33,7 @@ var questionSelect = document.querySelector("#question") ;
 var answerSelect = document.querySelector("#answers") ;
 var rightWrong = document.querySelector("#rightWrong") ;
 
-//Query Selector for score submit, go back and clear score, and initial inputbox, and score list
-var submitScores = document.querySelector("#submitScore");
-var scoreList = document.querySelector("#scoreList");
-var goBack = document.querySelector("#goBack");
-var clearScores = document.querySelector("#clearScores");
-var initialInput = document.querySelector("#initials");
+
 
 // set an object to store into local storage
 var recordedScore =[[],[]]
@@ -136,10 +139,12 @@ function quizGenerate() {
     answerSelect.addEventListener("click", function(event) {
         var element = event.target; 
         
-        const buttons = document.querySelectorAll('button')
+        buttons = document.querySelectorAll('button');
 
-        buttons.forEach((button) => {
-            button.setAttribute('disabled', 'true')
+        buttons.forEach((answerButton) => {
+            if( answerButton.getAttribute("class") === "answerButton"){
+                answerButton.setAttribute('disabled', 'true')
+            }
         });
 
         const userAnswer = element.getAttribute('value') - 1;
@@ -252,9 +257,10 @@ startQuiz.addEventListener("click", function(){
         timer--;
         timeStart.textContent = timer; 
 
-        if (timer <= 0) {
+        if (timer <= 0) {            
             clearInterval(timerCountdown);
             submitScore ();
+    
             quizPage.setAttribute("style", "display:none");
             highscorePageSubmit.setAttribute("style", "display:visible"); //lose, still register score 
         } else if (timerStop === true){
