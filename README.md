@@ -16,12 +16,12 @@ This project's goal was to create a coding quiz challenge from scratch based on 
 N/A
 
 ## Screenshot 
-https://github.com/Koro999/code-quiz-challenge
+https://github.com/Koro999/code-quiz-challenge - 
 https://koro999.github.io/code-quiz-challenge/
-![Alt text](/Assets/Screenshots/1.png)
-![Alt text](/Assets/Screenshots/2.png)
-![Alt text](/Assets/Screenshots/3.png)
-![Alt text](/Assets/Screenshots/4.png)
+![Alt text](/assets/creenshots/1.png)
+![Alt text](/assets/screenshots/2.png)
+![Alt text](/assets/screenshots/3.png)
+![Alt text](/assets/screenshots/4.png)
 
 ## Usage
 
