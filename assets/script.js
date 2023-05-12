@@ -4,6 +4,9 @@ var quizPage = document.querySelector("#quizPage");//needs to be cleared
 var highscorePageSubmit = document.querySelector("#highscorePageSubmit"); //somethings need to be cleared 
 var highscorePage = document.querySelector("#highscore"); //highscore page 
 
+//Query Selector for View High-Scores 
+var viewHighscore = document.querySelector("#viewHighscore");
+
 //timer variables 
 var timer; 
 var timeStart = document.querySelector('#timer');
@@ -132,6 +135,12 @@ function quizGenerate() {
     //event listener to check if answer clicked is correct 
     answerSelect.addEventListener("click", function(event) {
         var element = event.target; 
+        
+        const buttons = document.querySelectorAll('button')
+
+        buttons.forEach((button) => {
+            button.setAttribute('disabled', 'true')
+        });
 
         const userAnswer = element.getAttribute('value') - 1;
         const abcd = ["a","b","c","d"];
@@ -222,7 +231,10 @@ function clearScoreList () {
 }
 
 startQuiz.addEventListener("click", function(){
-    //reset to defaults
+    //reset values to default 
+    clearScoreList();
+    clearButtons ();
+    questionNumber = 0;
     score= 0;
     timer = 10;
 
@@ -249,6 +261,8 @@ startQuiz.addEventListener("click", function(){
             clearInterval(timerCountdown)
         }    
     },1000)
+
+    
 })
 
 submitScores.addEventListener("click", function(event) {
@@ -276,7 +290,6 @@ submitScores.addEventListener("click", function(event) {
 
         var newScore = JSON.parse(localStorage.getItem("score")); //parse stored object and save as an object var 
         
-        
         scoreList.appendChild(showScores); //append into existence
     }
     
@@ -286,20 +299,27 @@ submitScores.addEventListener("click", function(event) {
     })
 
 clearScores.addEventListener("click", function(event) {
-    
     clearScoreList ();
     recordedScore =[[],[]]
 })
 
 
 goBack.addEventListener("click", function(event) {
-
-    clearScoreList();
-    clearButtons ();
-
     introductionPage.setAttribute("style", "display:visible")
     highscorePage.setAttribute("style", "display:none");
 })
 
-//TODO:Make sure buttons are being removed when quiz is done 
-//TODO:FIgure out why highscore list is being overwritten 
+viewHighscore.addEventListener("click", function(event) {
+    event.preventDefault();
+    timerStop = true;
+
+    if (highscorePageSubmit.getAttribute("display") === "visible" || highscorePage.getAttribute === "visible"){
+        return;
+    }
+
+    introductionPage.setAttribute("style", "display: none");
+    quizPage.setAttribute("style", "display: none");
+    highscorePage.setAttribute("style", "display:visible");
+
+
+})
