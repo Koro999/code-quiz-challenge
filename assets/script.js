@@ -96,37 +96,6 @@ const quizQuestions = [
 }
 ]
 
-//startQuiz button. swap to quiz page, start timer
-startQuiz.addEventListener("click", function(){
-    //reset to defaults
-    score= 0;
-    timer = 1;
-
-    introductionPage.setAttribute("style", "display:none");
-    
-    //setting quizPage to show
-    quizPage.setAttribute("style", "display:visible");
-
-    //start generating Quiz questions
-    quizGenerate();
-
-    //starts the timer to do the quiz 
-    timeStart.textContent = timer;
-    var timerCountdown = setInterval (function() {
-        timer--;
-        timeStart.textContent = timer; 
-
-        if (timer <= 0) {
-            clearInterval(timerCountdown);
-            submitScore ();
-            quizPage.setAttribute("style", "display:none");
-            highscorePageSubmit.setAttribute("style", "display:visible"); //lose, still register score 
-        } else if (timerStop === true){
-            clearInterval(timerCountdown)
-        }    
-    },1000)
-})
-
 //show the quiz content on the page and check answers 
 function quizGenerate() {
     if (questionNumber > quizQuestions.length){ //
@@ -241,6 +210,47 @@ function clearButtons () {
     answerSelect = document.querySelector("#answers"); 
 }
 
+function clearScoreList () {
+    var removeHighscore = document.getElementById("scoreList");
+    removeHighscore.remove();
+
+    //recreate empty ol element
+    var scoreOl = document.createElement("ol");
+    scoreOl.setAttribute("id", "scoreList");
+    highscorePage.insertBefore(scoreOl, highscorePage.children[1])
+    scoreList = document.querySelector("#scoreList");
+}
+
+startQuiz.addEventListener("click", function(){
+    //reset to defaults
+    score= 0;
+    timer = 1;
+
+    introductionPage.setAttribute("style", "display:none");
+    
+    //setting quizPage to show
+    quizPage.setAttribute("style", "display:visible");
+
+    //start generating Quiz questions
+    quizGenerate();
+
+    //starts the timer to do the quiz 
+    timeStart.textContent = timer;
+    var timerCountdown = setInterval (function() {
+        timer--;
+        timeStart.textContent = timer; 
+
+        if (timer <= 0) {
+            clearInterval(timerCountdown);
+            submitScore ();
+            quizPage.setAttribute("style", "display:none");
+            highscorePageSubmit.setAttribute("style", "display:visible"); //lose, still register score 
+        } else if (timerStop === true){
+            clearInterval(timerCountdown)
+        }    
+    },1000)
+})
+
 submitScores.addEventListener("click", function(event) {
     event.preventDefault();//prevent webpage from refreshing
     //check for empty field 
@@ -248,8 +258,6 @@ submitScores.addEventListener("click", function(event) {
         alert("Please enter initials.")
         return;
       }
-
-    
 
     recordedScore[0].push(initialInput.value.trim()); 
     recordedScore[1].push(score);
@@ -259,8 +267,8 @@ submitScores.addEventListener("click", function(event) {
     
     for (var index = 0; index < recordedScore[0].length; index++) {
 
-        //var initialListIndex =  recordedScore[0][index]; //loop through initials 
-        //var scoreListIndex = recordedScore[1][index]; //loop through scores
+        //var initialListStore =  recordedScore[0][index]; //loop through initials 
+        //var scoreListStore = recordedScore[1][index]; //loop through scores
 
         var showScores = document.createElement("li"); //create li
         showScores.setAttribute("data-index", index);
@@ -279,19 +287,16 @@ submitScores.addEventListener("click", function(event) {
 
 clearScores.addEventListener("click", function(event) {
     
-    var removeHighscore = document.getElementById("scoreList");
-    removeHighscore.remove();
-
-    //recreate empty ol element
-    var scoreOl = document.createElement("ol");
-    scoreOl.setAttribute("id", "score");
-    quizPage.appendChild(scoreOl);
-    scoreList = document.querySelector("#scoreList");
+    clearScoreList ();
 
     recordedScore =[[],[]]
 })
 
+
 goBack.addEventListener("click", function(event) {
+
+    clearScoreList();
+
     introductionPage.setAttribute("style", "display:visible")
     highscorePage.setAttribute("style", "display:none");
 })
