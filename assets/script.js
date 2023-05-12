@@ -29,8 +29,8 @@ var goBack = document.querySelector("#goBack");
 var clearScores = document.querySelector("#clearScores");
 var initialInput = document.querySelector("#initials");
 
-var newScore ;
-var showScores; 
+// set an object to store into local storage
+var recordedScore =[[],[]]
 
 //quiz questions and answer storage in an Array
 const quizQuestions = [
@@ -100,7 +100,7 @@ const quizQuestions = [
 startQuiz.addEventListener("click", function(){
     //reset to defaults
     score= 0;
-    timer = 120;
+    timer = 1;
 
     introductionPage.setAttribute("style", "display:none");
     
@@ -243,34 +243,39 @@ function clearButtons () {
 
 submitScores.addEventListener("click", function(event) {
     event.preventDefault();//prevent webpage from refreshing
-
-    var recordedScore =
-    {initials: initialInput.value,
-    score: score }
-
-    recordedScore.score = score; 
-
+    //check for empty field 
     if (initialInput.value === "") {
         alert("Please enter initials.")
+        return;
       }
-    else {
-    //save score and initials to local storage
-    localStorage.setItem("score", JSON.stringify(recordedScore));  
+
+    
+
+    recordedScore[0].push(initialInput.value.trim()); 
+    recordedScore[1].push(score);
+
+    
+    localStorage.setItem("score", JSON.stringify(recordedScore)); //save the object to local storage to recall for later
+    
+    for (var index = 0; index < recordedScore[0].length; index++) {
+
+        //var initialListIndex =  recordedScore[0][index]; //loop through initials 
+        //var scoreListIndex = recordedScore[1][index]; //loop through scores
+
+        var showScores = document.createElement("li"); //create li
+        showScores.setAttribute("data-index", index);
+        showScores.textContent = `${recordedScore[0][index]} - ${recordedScore[1][index]}`;
+
+        var newScore = JSON.parse(localStorage.getItem("score")); //parse stored object and save as an object var 
+        
+        
+        scoreList.appendChild(showScores); //append into existence
+    }
+    
     //change pages once score is submitted
     highscorePageSubmit.setAttribute("style", "display:none");
     highscorePage.setAttribute("style", "display:visible");
-    
-    //create the li to show the scores set attributes for the score  
-    showScores = document.createElement("li"); //create li
-    scoreList.setAttribute("class", "scoreListStored"); //set attributes
-
-    newScore = JSON.parse(localStorage.getItem("score")); //parse stored object
-    storedText = `${newScore.initials} - ${newScore.score}`;
-    scoreList.textContent = storedText; //set text content
-    scoreList.setAttribute("style", "list-style:none; padding-left:0;") //set attributes
-    scoreList.appendChild(showScores); //append into existence
-    }
-});
+    })
 
 clearScores.addEventListener("click", function(event) {
     
@@ -283,9 +288,13 @@ clearScores.addEventListener("click", function(event) {
     quizPage.appendChild(scoreOl);
     scoreList = document.querySelector("#scoreList");
 
+    recordedScore =[[],[]]
 })
 
 goBack.addEventListener("click", function(event) {
     introductionPage.setAttribute("style", "display:visible")
     highscorePage.setAttribute("style", "display:none");
 })
+
+//TODO:Make sure buttons are being removed when quiz is done 
+//TODO:FIgure out why highscore list is being overwritten 
