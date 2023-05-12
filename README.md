@@ -18,7 +18,7 @@ N/A
 ## Screenshot 
 https://github.com/Koro999/code-quiz-challenge - 
 https://koro999.github.io/code-quiz-challenge/
-![Alt text](/assets/creenshots/1.png)
+![Alt text](/assets/screenshots/1.png)
 ![Alt text](/assets/screenshots/2.png)
 ![Alt text](/assets/screenshots/3.png)
 ![Alt text](/assets/screenshots/4.png)
