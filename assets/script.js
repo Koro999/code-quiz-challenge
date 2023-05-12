@@ -247,7 +247,7 @@ startQuiz.addEventListener("click", function(){ //start the quiz when this butto
     clearButtons ();
     questionNumber = 0;
     score= 0;
-    timer = 10;
+    timer = 120;
 
     introductionPage.setAttribute("style", "display:none");
     
