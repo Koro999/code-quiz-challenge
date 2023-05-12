@@ -5,7 +5,7 @@ var highscorePageSubmit = document.querySelector("#highscorePageSubmit"); //some
 var highscorePage = document.querySelector("#highscore"); //highscore page 
 
 //timer variables 
-var timer = 10; 
+var timer; 
 var timeStart = document.querySelector('#timer');
 var timerStop = false;
 
@@ -102,7 +102,7 @@ function quizGenerate() {
         clearButtons ();
         return;
     }
-
+    timerStop = false;
     
     questionSelect.textContent= quizQuestions[questionNumber].question;
     
@@ -224,7 +224,7 @@ function clearScoreList () {
 startQuiz.addEventListener("click", function(){
     //reset to defaults
     score= 0;
-    timer = 1;
+    timer = 10;
 
     introductionPage.setAttribute("style", "display:none");
     
@@ -288,7 +288,6 @@ submitScores.addEventListener("click", function(event) {
 clearScores.addEventListener("click", function(event) {
     
     clearScoreList ();
-
     recordedScore =[[],[]]
 })
 
@@ -296,6 +295,7 @@ clearScores.addEventListener("click", function(event) {
 goBack.addEventListener("click", function(event) {
 
     clearScoreList();
+    clearButtons ();
 
     introductionPage.setAttribute("style", "display:visible")
     highscorePage.setAttribute("style", "display:none");
